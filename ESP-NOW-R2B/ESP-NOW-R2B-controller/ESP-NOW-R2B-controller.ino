@@ -19,7 +19,7 @@ uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 // Must match the receiver structure
 typedef struct message_t {
   char text[32];
-  int temp;
+  int temp,cnt;
   float humid;
   bool test;
 } message_t;
@@ -66,14 +66,19 @@ void setup() {
     Serial.println("Failed to add peer");
     return;
   }
+
+  // Variable for iteration and count
+  n = 0;
 }
  
 void loop() {
   // Set values to send
+  n = n +1;
   strcpy(myData.text, "ZENITH >> ALL");
   myData.temp = 25;
   myData.humid = 52.4;
   myData.test = false;
+  myData.cnt = n;
   
   // Send message via ESP-NOW
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));

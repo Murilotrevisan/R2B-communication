@@ -16,7 +16,7 @@
 // Must match the sender structure
 typedef struct message_t {
     char text[32];
-    int temp;
+    int temp,cnt;
     float humid;
     bool test;
 } message_t;
@@ -38,6 +38,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.println(myData.humid);
   Serial.print("test: ");
   Serial.println(myData.test);
+  Serial.print("packet number: ");
+  Serial.println(myData.cnt);
   Serial.println("----------------------------------------------");
 }
  
