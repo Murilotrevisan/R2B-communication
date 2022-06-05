@@ -17,22 +17,27 @@ uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // Structure example to send data
 // Must match the receiver structure
-typedef struct struct_message {
-  char a[32];
-  int b;
-  float c;
-  bool d;
-} struct_message;
+typedef struct message_t {
+  char text[32];
+  int temp;
+  float humid;
+  bool test;
+} message_t;
 
 // Create a struct_message called myData
-struct_message myData;
+message_t myData;
 
 esp_now_peer_info_t peerInfo;
 
 // callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  Serial.print("\r\nLast Packet Send Status:\t");
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  Serial.println("\r\nSending the message...\r\n");
+  if (status == ESP_NOW_SEND_SUCCESS) {
+    Serial.println("Message delivered")
+  }
+  else {
+    Serial.println("Message failed")
+  }
 }
  
 void setup() {
@@ -48,8 +53,7 @@ void setup() {
     return;
   }
 
-  // Once ESPNow is successfully Init, we will register for Send CB to
-  // get the status of Trasnmitted packet
+  // Registering the callback function of sending messages
   esp_now_register_send_cb(OnDataSent);
   
   // Register peer
@@ -66,16 +70,16 @@ void setup() {
  
 void loop() {
   // Set values to send
-  strcpy(myData.a, "THIS IS A CHAR");
-  myData.b = random(1,20);
-  myData.c = 1.2;
-  myData.d = false;
+  strcpy(myData.text, "ZENITH >> ALL");
+  myData.temp = 25;
+  myData.humid = 52.4;
+  myData.test = false;
   
   // Send message via ESP-NOW
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
    
   if (result == ESP_OK) {
-    Serial.println("Sent with success");
+    Serial.println("Data sended");
   }
   else {
     Serial.println("Error sending the data");
