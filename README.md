@@ -1,2 +1,4 @@
 # R2B-communication
-This repository was made to test different ways to communicate an embedded systems, the purpose of this project is to test the better way to communicate the rocket and the balloon of the Zeus project.
+This repository was made to test different ways to communicate an embedded system, the purpose of this project is to test the better way to communicate the rocket and the balloon of the Zeus project.
+
+R2B(Rocket to Balloon) initially will test the ESP-NOW and embedded WIFI of the ESP32 and ESP8266 that will be used on the project, and after the first tests, will test the WIFI connection between ESPs and raspberries, in this project, all of this communications are secondary because the main source of information between the systems is the radio, but this will be tested with Zenith projects, you can find more information about the radio in GitHub[Zenith Repository](https://github.com/zenitheesc).
