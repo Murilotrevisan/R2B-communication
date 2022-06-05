@@ -12,32 +12,33 @@
 #include <esp_now.h>
 #include <WiFi.h>
 
-// Structure example to receive data
+
 // Must match the sender structure
-typedef struct struct_message {
-    char a[32];
-    int b;
-    float c;
-    bool d;
-} struct_message;
+typedef struct message_t {
+    char text[32];
+    int temp;
+    float humid;
+    bool test;
+} message_t;
 
 // Create a struct_message called myData
-struct_message myData;
+message_t myData;
 
 // callback function that will be executed when data is received
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   memcpy(&myData, incomingData, sizeof(myData));
-  Serial.print("Bytes received: ");
+  Serial.println("----------------------------------------------");
+  Serial.print("Data received: ");
   Serial.println(len);
-  Serial.print("Char: ");
-  Serial.println(myData.a);
-  Serial.print("Int: ");
-  Serial.println(myData.b);
-  Serial.print("Float: ");
-  Serial.println(myData.c);
-  Serial.print("Bool: ");
-  Serial.println(myData.d);
-  Serial.println();
+  Serial.print("text: ");
+  Serial.println(myData.text);
+  Serial.print("temperature: ");
+  Serial.println(myData.temp);
+  Serial.print("humid: ");
+  Serial.println(myData.humid);
+  Serial.print("test: ");
+  Serial.println(myData.test);
+  Serial.println("----------------------------------------------");
 }
  
 void setup() {
@@ -53,8 +54,7 @@ void setup() {
     return;
   }
   
-  // Once ESPNow is successfully Init, we will register for recv CB to
-  // get recv packer info
+  // Registering callback function of receiving messages
   esp_now_register_recv_cb(OnDataRecv);
 }
  
